@@ -70,7 +70,18 @@ Vagrant.configure("2") do |config|
     # documentation for more information about their specific syntax and use.
     config.vm.provision "shell", inline: <<-SHELL
       apt-get update
+      apt dist-upgrade -y
       apt-get install -y htop
+
+      # install Terraform
+      curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      sudo apt-get update && sudo apt-get install -y terraform
+
+      # install Ansible
+      sudo apt install -y software-properties-common
+      sudo add-apt-repository --yes --update ppa:ansible/ansible
+      sudo apt install -y ansible
     SHELL
   
     # Or enable provisioning from an external file.
